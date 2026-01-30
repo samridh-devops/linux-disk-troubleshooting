@@ -75,6 +75,7 @@ Command:
 Explanation:
   - Checks the status of SSH daemon.
   - Status observed: active (running)
+  - ![image alt](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/959e9365e34758f7a2c1684213b165d93c227862/images/t1.png)
 
 Step 2: Simulate Service Failure
 Command:
