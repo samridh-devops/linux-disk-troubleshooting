@@ -1,198 +1,160 @@
-nux Troubleshooting Labs — Day 1
-
-Objective:
-By the end of this lab, you will be able to:
-
-Diagnose a disk full issue
-
-Handle a service down scenario
-
-Analyze application logs
-
-Troubleshoot file permission issues
-
-Tools Allowed: Terminal, your brain
-Google: ❌ Not allowed until the end
-
-Task 1: Disk Full – Incident Simulation
-
-Objective: Simulate a real-world disk full incident on a Linux server and perform recovery.
-
-Environment:
-
-AWS EC2 (Amazon Linux / Ubuntu)
-
-Root filesystem: /dev/xvda1
-
-Steps
-
-1. Check Disk Usage
-
-df -h
-
-
-Example output:
-
-/dev/xvda1  8.0G  1.6G  6.5G  19% /
-
-
-2. Fill the Disk (Break It)
-
-sudo mkdir /var/tmp/fill
-sudo fallocate -l 2G /var/tmp/fill/bigfile
-df -h
-
-
-Observation: /dev/xvda1 usage increased from 19% → 45%
-
-3. Recovery
-
-sudo rm -rf /var/tmp/fill
-df -h
-
-
-Disk space restored.
-
-4. Key Learnings
-
-Root filesystem fills first → app logs fail, services may crash
-
-Monitor /var/log for errors
-
-Disk full affects deployments, updates, SSH logins
-
-Task 2: SSH Service Down – Incident Simulation
-
-Objective: Simulate a real-world SSH service outage and restore it safely.
-
-Environment:
-
-AWS EC2 (Amazon Linux)
-
-Service: sshd
-
-Init system: systemd
-
-Steps
-
-1. Check Service Status
-
-systemctl status sshd
-
-
-Status observed: active (running)
-
-2. Simulate Service Failure
-
-sudo systemctl stop sshd
-
-
-SSH service stopped to simulate a production outage.
-
-3. Verify Failure
-
-systemctl status sshd
-
-
-Status changed to: inactive (dead)
-
-4. Restore Service
-
-sudo systemctl start sshd
-systemctl status sshd
-
-
-SSH service successfully restored.
-
-5. Log Analysis
-
-journalctl -u sshd --no-pager | tail -20
-
-
-Observation: Check recent SSH logs to ensure the service is restored correctly.
-
-Task 3: Log Analysis – Practical Lab
-
-Objective: Analyze application logs like a real DevOps engineer.
-
-Environment:
-
-AWS EC2 (Amazon Linux)
-
-Tools: mkdir, touch, echo, cat, tail, grep
-
-Sample log file: app.log
-
-Steps
-
-1. Create a Fake App Log
-
-mkdir ~/logs
-cd ~/logs
-touch app.log
-
-
-2. Write Logs
-
-echo "INFO: App started" >> app.log
-echo "INFO: DB connected" >> app.log
-echo "ERROR: DB timeout" >> app.log
-
-
-3. Read Logs Like a DevOps Engineer
-
-cat app.log       # full log
-tail app.log      # last entries quickly
-grep ERROR app.log # only errors
-
-
-4. Key Learnings
-
-Logs are critical for troubleshooting
-
-tail -f allows real-time monitoring
-
-grep ERROR speeds up issue detection
-
-Proper log analysis helps detect and fix issues fast
-
-Task 4: File Permissions – Practical Lab
-
-Objective: Understand Linux file permissions and troubleshoot access issues.
-
-Environment:
-
-AWS EC2 (Amazon Linux)
-
-Sample log file: app.log
-
-Steps
-
-1. Check File Permissions
-
-ls -l app.log
-
-
-2. Restrict Access
-
-chmod 000 app.log
-cat app.log
-
-
-Observation: Permission denied error
-
-3. Restore Access
-
-chmod 644 app.log
-cat app.log
-
-
-File readable again.
-
-4. Key Learnings
-
-chmod controls file access
-
-Incorrect permissions break applications
-
-Always check permissions when debugging file access issues
+Linux Troubleshooting Lab – Day 1        #
+#################################################################
+
+Prepared by: Samridh Gupta
+Date: 30-Jan-2026
+Environment: AWS EC2 (Amazon Linux)
+
+-----------------------------------------------------------------
+Objective
+-----------------------------------------------------------------
+The goal of this lab is to simulate real-world Linux incidents and
+troubleshoot them like a DevOps engineer.
+
+By the end of the lab, you will be able to:
+  - Diagnose disk full issues
+  - Diagnose service down issues
+  - Analyze application logs
+  - Understand and fix file permission problems
+
+-----------------------------------------------------------------
+Environment
+-----------------------------------------------------------------
+  - AWS EC2 Instance (Amazon Linux)
+  - Root filesystem: /dev/xvda1
+  - Services used: sshd (SSH daemon)
+  - Init system: systemd
+  - Terminal commands: df, systemctl, journalctl, ls, chmod, cat, tail, grep
+
+-----------------------------------------------------------------
+Task 1 – Disk Full Incident
+-----------------------------------------------------------------
+
+Step 1: Check Disk Usage
+Command:
+  df -h
+Explanation:
+  - df -h shows disk usage of all partitions in human-readable format.
+  - Observed /dev/xvda1 had 1.6G used of 8G (19%).
+
+Step 2: Fill the Disk (Simulate Failure)
+Commands:
+  sudo mkdir /var/tmp/fill
+  sudo fallocate -l 2G /var/tmp/fill/bigfile
+  df -h
+Explanation:
+  - We created a big file to simulate a disk full situation.
+  - After creating 2GB file, /dev/xvda1 usage increased from 19% → 45%.
+  - This simulates real production risk where log files or apps fill the disk.
+
+Step 3: Observe Impact
+  - Partition filled: /dev/xvda1
+  - % usage increase: 26%
+  - Potential failures in production:
+      1. Application logs stop writing
+      2. Services fail to start/restart
+      3. CI/CD deployments fail
+      4. Package manager operations fail
+
+Step 4: Recovery
+Commands:
+  sudo rm -rf /var/tmp/fill
+  df -h
+Explanation:
+  - Removed the big file to free space
+  - Usage reverted back to 19%
+  - Disk is stable, services can continue running
+
+-----------------------------------------------------------------
+Task 2 – SSH Service Down
+-----------------------------------------------------------------
+
+Step 1: Check SSH Service
+Command:
+  systemctl status sshd
+Explanation:
+  - Checks the status of SSH daemon.
+  - Status observed: active (running)
+
+Step 2: Simulate Service Failure
+Command:
+  sudo systemctl stop sshd
+Explanation:
+  - Stops SSH service to simulate production outage
+  - Useful for testing monitoring and recovery procedures
+
+Step 3: Verify Failure
+Command:
+  systemctl status sshd
+Observation:
+  - Status changed to inactive (dead)
+  - Shows service is not running
+
+Step 4: Restore Service
+Command:
+  sudo systemctl start sshd
+  systemctl status sshd
+Explanation:
+  - Starts SSH service back
+  - Status: active (running) → Service recovered
+
+Step 5: Log Analysis
+Command:
+  journalctl -u sshd --no-pager | tail -20
+Explanation:
+  - Shows last 20 log lines for SSH service
+  - Helps identify causes of failure
+
+-----------------------------------------------------------------
+Task 3 – Log Analysis
+-----------------------------------------------------------------
+
+Step 1: Create Fake App Logs
+Commands:
+  mkdir ~/logs
+  cd ~/logs
+  touch app.log
+
+Step 2: Write Logs
+Commands:
+  echo "INFO: App started" >> app.log
+  echo "INFO: DB connected" >> app.log
+  echo "ERROR: DB timeout" >> app.log
+
+Step 3: Read Logs
+Commands:
+  cat app.log
+  tail app.log
+  grep ERROR app.log
+Explanation:
+  - Use cat to view all logs
+  - Use tail to see last entries
+  - Use grep ERROR to filter critical errors
+  - This simulates real DevOps log troubleshooting
+
+-----------------------------------------------------------------
+Task 4 – File Permissions
+-----------------------------------------------------------------
+
+Step 1: Check File Permissions
+Command:
+  ls -l app.log
+
+Step 2: Break Permissions
+Command:
+  chmod 000 app.log
+  cat app.log
+Observation:
+  - You cannot read the file → permission denied
+
+Step 3: Restore Permissions
+Command:
+  chmod 644 app.log
+  cat app.log
+Explanation:
+  - Restores normal read/write permissions
+  - Demonstrates impact of permissions on application
+
+#################################################################
+#                          End of Lab                          #
+#################################################################
