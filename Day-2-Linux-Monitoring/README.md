@@ -79,6 +79,8 @@ Internet connectivity is confirmed with 0% packet loss to google.com.
 ### Conclusion
 Network configuration is healthy. Interface, routing, connectivity, and critical service ports are functioning correctly.
 
+### Screenshots
+![Disk & Inodes](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/5b69427a6ffbaffc7eafbe36aa1884a3315f1f5f/Day-2-Linux-Monitoring/d2c.jpg)
 -----------------
 
 
