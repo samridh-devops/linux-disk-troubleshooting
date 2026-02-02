@@ -48,6 +48,8 @@ du -sh /var/log/*
 ### Conclusion
 Disk space and inode usage are within healthy limits. Regular monitoring of /var/log is essential to prevent disk-related outages.
 
+### Screenshot
+![Disk & Inodes](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/5b69427a6ffbaffc7eafbe36aa1884a3315f1f5f/Day-2-Linux-Monitoring/d2c.jpg)
 ----------------------------
 
 
