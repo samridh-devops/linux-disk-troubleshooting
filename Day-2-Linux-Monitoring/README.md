@@ -16,7 +16,10 @@ uptime
 
 ### Conclusion
 The system is stable with no CPU or memory bottlenecks. Current resource usage is within safe limits.
+### Screenshot
+![CPU & Memory1](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/ffb20a247d84e1f81ccef3e2d5a9dd5ebe61ef5b/Day-2-Linux-Monitoring/d2a.png)
 
+![CPU & Memory1](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/ffb20a247d84e1f81ccef3e2d5a9dd5ebe61ef5b/Day-2-Linux-Monitoring/d2b.jpg)
 -----------------
 
 ## Task 2: Disk & Inode Monitoring
