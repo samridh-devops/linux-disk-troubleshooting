@@ -20,7 +20,7 @@ The system is stable with no CPU or memory bottlenecks. Current resource usage i
 ![CPU & Memory1](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/ffb20a247d84e1f81ccef3e2d5a9dd5ebe61ef5b/Day-2-Linux-Monitoring/d2a.png)
 
 ![CPU & Memory1](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/ffb20a247d84e1f81ccef3e2d5a9dd5ebe61ef5b/Day-2-Linux-Monitoring/d2b.jpg)
------------------
+-------------------
 
 ## Task 2: Disk & Inode Monitoring
 
@@ -45,11 +45,12 @@ du -sh /var/log/*
 - /var/log/journal is the largest consumer (~57 MB)
 - System logs are a common cause of disk full issues
 
+### Screenshot
+![Disk & Inodes](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/5b69427a6ffbaffc7eafbe36aa1884a3315f1f5f/Day-2-Linux-Monitoring/d2c.jpg)
 ### Conclusion
 Disk space and inode usage are within healthy limits. Regular monitoring of /var/log is essential to prevent disk-related outages.
 
-### Screenshot
-![Disk & Inodes](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/5b69427a6ffbaffc7eafbe36aa1884a3315f1f5f/Day-2-Linux-Monitoring/d2c.jpg)
+
 ----------------------------
 
 
@@ -78,14 +79,12 @@ Internet connectivity is confirmed with 0% packet loss to google.com.
 - Bound to all interfaces (0.0.0.0)
 - Confirms SSH availability at network level
 
+### Screenshot
+![Network Verification](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/ac293ac1620853f1b96a2afdbbb0b71049a74b83/Day-2-Linux-Monitoring/d2d.jpg)
 ### Conclusion
 Network configuration is healthy. Interface, routing, connectivity, and critical service ports are functioning correctly.
 
-### Screenshots
-![Disk & Inodes](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/5b69427a6ffbaffc7eafbe36aa1884a3315f1f5f/Day-2-Linux-Monitoring/d2c.jpg)
------------------
-
-
+----------------
 ## Task 4: SSH Process & Security Verification
 
 ### Commands Used
@@ -112,6 +111,9 @@ systemctl status sshd
 - Invalid user login attempts detected from external IPs
 - Valid public key authentication for ec2-user succeeded
 - Confirms secure SSH access with key-based authentication
+
+ ### Screenshot
+![SSH Status](https://github.com/samridh-devops/linux-disk-troubleshooting/blob/ac293ac1620853f1b96a2afdbbb0b71049a74b83/Day-2-Linux-Monitoring/d2e.jpg)
 
 ### Conclusion
 SSH service is healthy, secure, and operating as expected. Unauthorized access attempts are blocked, and legitimate users can connect successfully.
